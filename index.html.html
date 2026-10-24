@@ -1,0 +1,685 @@
+
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شرکت احداث و توسعه نیروگاه‌های سولار | پیشرو در انرژی‌های پاک</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Vazirmatn -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Vazirmatn', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#1D4ED8',
+                            blueHover: '#1E40AF',
+                            blueDark: '#0F172A',
+                            navy: '#1E293B',
+                            yellow: '#FFD000',
+                            gold: '#D97706',
+                            bgGray: '#F3F4F6',
+                            bgGrayDark: '#E5E7EB',
+                            cardBg: '#EEF2F6',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #F3F4F6;
+            color: #1E293B;
+            overflow-x: hidden;
+        }
+        .page-tab {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .page-tab.active {
+            display: block;
+            opacity: 1;
+        }
+        .solar-grid-pattern {
+            background-image: radial-gradient(rgba(29, 78, 216, 0.08) 1.5px, transparent 1.5px);
+            background-size: 28px 28px;
+        }
+        .solar-glow {
+            box-shadow: 0 0 50px -5px rgba(255, 208, 0, 0.25);
+        }
+        @keyframes pulseRays {
+            0%, 100% { transform: scale(1); opacity: 0.85; }
+            50% { transform: scale(1.08); opacity: 1; }
+        }
+        .animate-sun-rays {
+            animation: pulseRays 3.5s infinite ease-in-out;
+            transform-origin: center;
+        }
+        @keyframes energyFlow {
+            0% { stroke-dashoffset: 24; }
+            100% { stroke-dashoffset: 0; }
+        }
+        .animate-flow-line {
+            stroke-dasharray: 6, 6;
+            animation: energyFlow 1.5s linear infinite;
+        }
+        @keyframes floatEffect {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        .animate-float {
+            animation: floatEffect 5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen antialiased bg-brand-bgGray text-slate-800">
+
+    <!-- Header & Navigation -->
+    <header class="sticky top-0 z-50 bg-brand-bgGray/90 backdrop-blur-md border-b border-slate-300/70 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between py-3 min-h-[125px]">
+                
+                <!-- Logo: سایز بزرگتر (ارتفاع ۱۲۵ پیکسل) -->
+                <div class="flex items-center cursor-pointer" onclick="switchTab('home')">
+                    <img src="logo.png" alt="شرکت احداث و توسعه نیروگاه‌های سولار" style="height: 125px; max-height: 125px; width: auto; object-fit: contain;" class="transition-transform hover:scale-105 drop-shadow-sm">
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-1 space-x-reverse text-sm font-semibold">
+                    <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-4 py-2 rounded-xl text-brand-blue bg-brand-bgGrayDark font-bold transition-all">
+                        صفحه اصلی
+                    </button>
+                    <button onclick="switchTab('about')" id="nav-about" class="nav-btn px-4 py-2 rounded-xl text-slate-600 hover:text-brand-blue hover:bg-slate-200/50 transition-all">
+                        درباره ما
+                    </button>
+                    <button onclick="switchTab('contact')" id="nav-contact" class="nav-btn px-4 py-2 rounded-xl text-slate-600 hover:text-brand-blue hover:bg-slate-200/50 transition-all">
+                        تماس با ما
+                    </button>
+                </nav>
+
+                <!-- Action Button -->
+                <div class="hidden md:flex items-center">
+                    <button onclick="switchTab('contact')" class="bg-brand-blue hover:bg-brand-blueHover text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-md shadow-brand-blue/20 flex items-center gap-2">
+                        <span>درخواست مشاوره</span>
+                        <i class="fa-solid fa-arrow-left text-brand-yellow text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="p-2 rounded-xl text-brand-navy hover:bg-slate-200">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation Drawer -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4 pt-2 border-t border-slate-300/60">
+                <div class="flex flex-col space-y-2 text-sm font-medium">
+                    <button onclick="switchTab('home'); toggleMobileMenu()" class="text-right px-4 py-2.5 rounded-xl text-brand-blue bg-slate-200/80 font-bold">صفحه اصلی</button>
+                    <button onclick="switchTab('about'); toggleMobileMenu()" class="text-right px-4 py-2.5 rounded-xl text-slate-700 hover:bg-slate-200">درباره ما</button>
+                    <button onclick="switchTab('contact'); toggleMobileMenu()" class="text-right px-4 py-2.5 rounded-xl text-slate-700 hover:bg-slate-200">تماس با ما</button>
+                    <button onclick="switchTab('contact'); toggleMobileMenu()" class="mt-2 bg-brand-yellow text-brand-navy text-center py-2.5 rounded-xl font-bold">درخواست مشاوره تخصصی</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-grow">
+
+        <!-- ================= PAGE 1: HOME ================= -->
+        <section id="page-home" class="page-tab active">
+            
+            <!-- Hero Section -->
+            <div class="relative bg-brand-bgGray pt-8 pb-14 lg:pt-10 lg:pb-20 overflow-hidden solar-grid-pattern">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                        
+                        <!-- متن اول متناسب‌تر و کمی کوچک‌تر -->
+                        <div class="lg:col-span-7 space-y-5 text-right">
+                            <div class="inline-flex items-center gap-2 bg-brand-blue/10 border border-brand-blue/20 px-3 py-1 rounded-full text-xs font-bold text-brand-blue">
+                                <i class="fa-solid fa-leaf text-emerald-600"></i>
+                                <span>توسعه پایداری زیست‌محیطی و احداث نیروگاه خورشیدی</span>
+                            </div>
+                            
+                            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black text-brand-navy leading-snug">
+                                احداث تخصصی نیروگاه‌های خورشیدی با <span class="text-brand-yellow font-black">بالاترین راندمان</span>
+                            </h1>
+                            
+                            <p class="text-slate-600 text-sm sm:text-base leading-relaxed max-w-2xl font-normal">
+                                شرکت احداث و توسعه نیروگاه‌های سولار با بهره‌گیری از تکنولوژی‌های روز دنیا و استانداردهای سبز زیست‌محیطی، پروژه‌های صنعتی و نیروگاهی خورشیدی را از طراحی تا اتصال به شبکه سراسری اجرا می‌نماید.
+                            </p>
+                            
+                            <div class="flex flex-col sm:flex-row gap-3.5 pt-1">
+                                <button onclick="switchTab('contact')" class="bg-brand-blue hover:bg-brand-blueHover text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-brand-blue/20 transition-all text-center flex items-center justify-center gap-2">
+                                    <span>درخواست ارزیابی اولیه پروژه</span>
+                                    <i class="fa-solid fa-chevron-left text-xs text-brand-yellow"></i>
+                                </button>
+                                <button onclick="switchTab('about')" class="bg-brand-cardBg hover:bg-slate-300/60 text-brand-navy border border-slate-300 px-6 py-3 rounded-xl font-bold text-sm transition-all text-center">
+                                    آشنایی با توانمندی‌ها
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 5-Step Realistic Minimal Visual Diagram (طبق الگوی تصویر ارسالی) -->
+                        <div class="lg:col-span-5 relative">
+                            <div class="bg-slate-900 rounded-3xl p-5 text-white shadow-2xl solar-glow border border-slate-700/80 animate-float">
+                                
+                                <div class="text-center mb-3">
+                                    <span class="inline-block bg-brand-yellow/20 text-brand-yellow text-2xs font-bold px-3 py-0.5 rounded-full mb-1">چرخه تولید برق</span>
+                                    <h3 class="text-xs font-black text-white">فرآیند گام‌به‌گام تولید برق خورشیدی</h3>
+                                </div>
+
+                                <!-- SVG Realistic Minimal Icons Chain -->
+                                <div class="w-full bg-slate-950 rounded-2xl p-4 border border-white/10 relative overflow-hidden">
+                                    
+                                    <!-- Flow Line Connecting Steps -->
+                                    <svg class="absolute top-1/2 left-0 w-full h-8 -translate-y-1/2 pointer-events-none z-0">
+                                        <line x1="12%" y1="50%" x2="88%" y2="50%" stroke="#FFD000" stroke-width="2" class="animate-flow-line" />
+                                    </svg>
+
+                                    <div class="grid grid-cols-5 gap-1.5 relative z-10 text-center">
+                                        
+                                        <!-- Step 1: خورشید (Minimal Sun Icon) -->
+                                        <div class="flex flex-col items-center">
+                                            <div class="w-12 h-12 rounded-xl bg-slate-900 border border-amber-400/50 flex items-center justify-center p-1.5 shadow-md mb-1.5">
+                                                <svg viewBox="0 0 100 100" class="w-full h-full">
+                                                    <circle cx="50" cy="50" r="22" fill="#FFD000" class="animate-sun-rays" />
+                                                    <path d="M50,10 L50,2" stroke="#FFD000" stroke-width="4" stroke-linecap="round" />
+                                                    <path d="M50,90 L50,98" stroke="#FFD000" stroke-width="4" stroke-linecap="round" />
+                                                    <path d="M10,50 L2,50" stroke="#FFD000" stroke-width="4" stroke-linecap="round" />
+                                                    <path d="M90,50 L98,50" stroke="#FFD000" stroke-width="4" stroke-linecap="round" />
+                                                    <path d="M22,22 L16,16" stroke="#FFD000" stroke-width="4" stroke-linecap="round" />
+                                                    <path d="M78,78 L84,84" stroke="#FFD000" stroke-width="4" stroke-linecap="round" />
+                                                </svg>
+                                            </div>
+                                            <span class="text-[9px] font-black text-brand-yellow leading-tight">۱. نور خورشید</span>
+                                        </div>
+
+                                        <!-- Step 2: پنل خورشیدی (Minimal Solar Panel Icon) -->
+                                        <div class="flex flex-col items-center">
+                                            <div class="w-12 h-12 rounded-xl bg-slate-900 border border-blue-400/50 flex items-center justify-center p-1.5 shadow-md mb-1.5">
+                                                <svg viewBox="0 0 100 100" class="w-full h-full">
+                                                    <polygon points="15,75 35,25 85,25 65,75" fill="#1D4ED8" stroke="#60A5FA" stroke-width="3" />
+                                                    <line x1="35" y1="25" x2="25" y2="75" stroke="#FFD000" stroke-width="2" />
+                                                    <line x1="60" y1="25" x2="45" y2="75" stroke="#FFD000" stroke-width="2" />
+                                                    <line x1="25" y1="50" x2="75" y2="50" stroke="#93C5FD" stroke-width="2" />
+                                                </svg>
+                                            </div>
+                                            <span class="text-[9px] font-black text-slate-200 leading-tight">۲. پنل خورشیدی</span>
+                                        </div>
+
+                                        <!-- Step 3: اینورتر (Minimal Inverter Icon) -->
+                                        <div class="flex flex-col items-center">
+                                            <div class="w-12 h-12 rounded-xl bg-slate-900 border border-emerald-400/50 flex items-center justify-center p-1.5 shadow-md mb-1.5">
+                                                <svg viewBox="0 0 100 100" class="w-full h-full">
+                                                    <rect x="15" y="25" width="70" height="50" rx="8" fill="#1E293B" stroke="#10B981" stroke-width="3" />
+                                                    <circle cx="35" cy="45" r="5" fill="#10B981" />
+                                                    <rect x="50" y="40" width="22" height="10" rx="2" fill="#334155" />
+                                                    <path d="M25,60 C35,52 45,68 55,60 C65,52 75,68 80,60" fill="none" stroke="#FFD000" stroke-width="3" stroke-linecap="round" />
+                                                </svg>
+                                            </div>
+                                            <span class="text-[9px] font-black text-slate-200 leading-tight">۳. اینورتر</span>
+                                        </div>
+
+                                        <!-- Step 4: ترانسفورماتور (Minimal Transformer Icon) -->
+                                        <div class="flex flex-col items-center">
+                                            <div class="w-12 h-12 rounded-xl bg-slate-900 border border-sky-400/50 flex items-center justify-center p-1.5 shadow-md mb-1.5">
+                                                <svg viewBox="0 0 100 100" class="w-full h-full">
+                                                    <rect x="25" y="35" width="50" height="45" rx="4" fill="#1E293B" stroke="#38BDF8" stroke-width="3" />
+                                                    <path d="M30,35 L30,15 M43,35 L43,15 M57,35 L57,15 M70,35 L70,15" stroke="#38BDF8" stroke-width="3" stroke-linecap="round" />
+                                                    <circle cx="30" cy="15" r="3" fill="#FFD000" />
+                                                    <circle cx="43" cy="15" r="3" fill="#FFD000" />
+                                                    <circle cx="57" cy="15" r="3" fill="#FFD000" />
+                                                    <circle cx="70" cy="15" r="3" fill="#FFD000" />
+                                                </svg>
+                                            </div>
+                                            <span class="text-[9px] font-black text-slate-200 leading-tight">۴. ترانسفورماتور</span>
+                                        </div>
+
+                                        <!-- Step 5: دکل شبکه برق (Minimal Power Grid Icon) -->
+                                        <div class="flex flex-col items-center">
+                                            <div class="w-12 h-12 rounded-xl bg-slate-900 border border-emerald-400/50 flex items-center justify-center p-1.5 shadow-md mb-1.5">
+                                                <svg viewBox="0 0 100 100" class="w-full h-full">
+                                                    <path d="M35,85 L50,15 L65,85" stroke="#34D399" stroke-width="3" fill="none" />
+                                                    <path d="M20,35 L80,35 M28,55 L72,55 M42,35 L50,55 L58,35" stroke="#34D399" stroke-width="2" fill="none" />
+                                                    <circle cx="20" cy="35" r="3" fill="#FFD000" />
+                                                    <circle cx="80" cy="35" r="3" fill="#FFD000" />
+                                                </svg>
+                                            </div>
+                                            <span class="text-[9px] font-black text-emerald-400 leading-tight">۵. شبکه برق</span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3 pt-3 border-t border-white/10 text-xs mt-3">
+                                    <div class="bg-white/5 p-2 rounded-xl border border-white/5 text-center">
+                                        <div class="text-slate-400 text-2xs">تکنولوژی ماژول‌ها</div>
+                                        <div class="font-black text-brand-yellow mt-0.5">N-Type TOPCon</div>
+                                    </div>
+                                    <div class="bg-white/5 p-2 rounded-xl border border-white/5 text-center">
+                                        <div class="text-slate-400 text-2xs">پایداری شبکه</div>
+                                        <div class="font-black text-emerald-400 mt-0.5">تزریق مستقیم ۲۴/۷</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Realistic Industry Statistics -->
+            <div class="bg-brand-bgGrayDark/60 py-10 border-y border-slate-300/70">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                        <div class="p-3 flex items-center justify-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-brand-blue/10 text-brand-blue flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-black text-brand-navy">+۲۲٪</div>
+                                <div class="text-2xs text-slate-500 font-bold">راندمان ماژول‌های فتوولتائیک</div>
+                            </div>
+                        </div>
+
+                        <div class="p-3 flex items-center justify-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-shield-check"></i>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-black text-brand-navy">۲۵ سال</div>
+                                <div class="text-2xs text-slate-500 font-bold">تضمین خطی توان خروجی</div>
+                            </div>
+                        </div>
+
+                        <div class="p-3 flex items-center justify-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-brand-yellow/20 text-amber-700 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-certificate"></i>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-black text-brand-navy">IEC 61215</div>
+                                <div class="text-2xs text-slate-500 font-bold">استاندارد بین‌المللی احداث</div>
+                            </div>
+                        </div>
+
+                        <div class="p-3 flex items-center justify-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-brand-blue/10 text-brand-blue flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-bolt"></i>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-black text-brand-navy">پیمانکاری EPC</div>
+                                <div class="text-2xs text-slate-500 font-bold">طراحی، تامین و اجرا</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Core Services Section -->
+            <div class="py-20 bg-brand-bgGray">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-3xl mx-auto mb-16 space-y-2">
+                        <span class="text-xs font-bold text-brand-blue tracking-wider uppercase">حوزه‌های خدمات مهندسی</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-navy">راهکارهای تخصصی احداث نیروگاه سولار</h2>
+                        <p class="text-slate-600 text-sm">ارائه چرخه کامل خدمات تخصصی با رویکرد پایداری و استانداردهای تجدیدپذیر</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Card 1 -->
+                        <div class="bg-brand-cardBg p-6 rounded-2xl border border-slate-300/80 hover:border-brand-blue hover:shadow-xl transition-all duration-300 group">
+                            <div class="w-12 h-12 bg-brand-blue text-brand-yellow rounded-xl flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform shadow-md">
+                                <i class="fa-solid fa-drafting-compass"></i>
+                            </div>
+                            <h3 class="text-base font-bold text-brand-navy mb-2">طراحی و امکان‌سنجی</h3>
+                            <p class="text-slate-600 text-xs leading-relaxed">
+                                تحلیل دقیق میزان تابش منطقه‌ای، شبیه‌سازی سه بعدی نیروگاه و محاسبات فنی-اقتصادی دقیق.
+                            </p>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="bg-brand-cardBg p-6 rounded-2xl border border-slate-300/80 hover:border-brand-blue hover:shadow-xl transition-all duration-300 group">
+                            <div class="w-12 h-12 bg-brand-blue text-brand-yellow rounded-xl flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform shadow-md">
+                                <i class="fa-solid fa-solar-panel"></i>
+                            </div>
+                            <h3 class="text-base font-bold text-brand-navy mb-2">تامین تجهیزات و احداث</h3>
+                            <p class="text-slate-600 text-xs leading-relaxed">
+                                تامین پنل‌های سولار، اینورترهای سانترال/استرینگ و اجرای کامل استراکچرها به‌صورت EPC.
+                            </p>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="bg-brand-cardBg p-6 rounded-2xl border border-slate-300/80 hover:border-brand-blue hover:shadow-xl transition-all duration-300 group">
+                            <div class="w-12 h-12 bg-brand-blue text-brand-yellow rounded-xl flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform shadow-md">
+                                <i class="fa-solid fa-network-wired"></i>
+                            </div>
+                            <h3 class="text-base font-bold text-brand-navy mb-2">اتصال به شبکه و تزریق</h3>
+                            <p class="text-slate-600 text-xs leading-relaxed">
+                                نصب پست‌های پاساژ، ترانسفورماتورها و اخذ تاییدیه‌های شرکت توزیع برق جهت اتصال شبکه.
+                            </p>
+                        </div>
+
+                        <!-- Card 4 -->
+                        <div class="bg-brand-cardBg p-6 rounded-2xl border border-slate-300/80 hover:border-brand-blue hover:shadow-xl transition-all duration-300 group">
+                            <div class="w-12 h-12 bg-brand-blue text-brand-yellow rounded-xl flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform shadow-md">
+                                <i class="fa-solid fa-screwdriver-wrench"></i>
+                            </div>
+                            <h3 class="text-base font-bold text-brand-navy mb-2">پایش و نگهداری (O&M)</h3>
+                            <p class="text-slate-600 text-xs leading-relaxed">
+                                پایش هوشمند ۲۴ ساعته، سرویس‌های نگهداری دوره‌ای و شستشوی مکانیزه برای حفظ راندمان.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ================= PAGE 2: ABOUT US ================= -->
+        <section id="page-about" class="page-tab">
+            
+            <!-- Banner -->
+            <div class="bg-brand-blueDark text-white py-16 border-b border-slate-800">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <span class="text-xs font-bold text-brand-yellow tracking-wider uppercase">درباره شرکت</span>
+                    <h1 class="text-3xl font-extrabold mt-2 mb-3">احداث و توسعه نیروگاه‌های سولار</h1>
+                    <p class="text-slate-300 text-sm max-w-2xl mx-auto font-light leading-relaxed">
+                        پیشرو در ارائه خدمات جامع مهندسی، تامین و ساخت نیروگاه‌های خورشیدی کشور.
+                    </p>
+                </div>
+            </div>
+
+            <div class="py-16 bg-brand-bgGray">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
+                        
+                        <div class="lg:col-span-7 space-y-5">
+                            <h2 class="text-2xl font-bold text-brand-navy">معرفی و سوابق شرکت</h2>
+                            <p class="text-slate-700 text-sm leading-relaxed">
+                                شرکت «احداث و توسعه نیروگاه‌های سولار» به عنوان یکی از مجموعه‌های تخصصی در صنعت انرژی‌های تجدیدپذیر، با هدف پاسخگویی به چالش‌های تامین انرژی صنایع و ارتقای سهم انرژی‌های پاک تاسیس گردیده است.
+                            </p>
+                            <p class="text-slate-700 text-sm leading-relaxed">
+                                این مجموعه با بهره‌مندی از کارشناسان مجرب، تجهیزات مدرن و شناخت کامل الزامات قانونی و فنی، تمامی مراحل ساخت نیروگاه از مطالعات اولیه تا بهره‌برداری نهایی را به‌صورت یکپارچه مدیریت می‌کند.
+                            </p>
+
+                            <div class="grid grid-cols-2 gap-4 pt-4">
+                                <div class="bg-brand-cardBg p-4 rounded-xl border border-slate-300 flex items-center gap-3">
+                                    <i class="fa-solid fa-leaf text-emerald-600 text-2xl"></i>
+                                    <div>
+                                        <div class="text-xs font-bold text-brand-navy">سوخت پاک</div>
+                                        <div class="text-2xs text-slate-500">بدون آلودگی محیط زیست</div>
+                                    </div>
+                                </div>
+                                <div class="bg-brand-cardBg p-4 rounded-xl border border-slate-300 flex items-center gap-3">
+                                    <i class="fa-solid fa-sun text-brand-yellow text-2xl"></i>
+                                    <div>
+                                        <div class="text-xs font-bold text-brand-navy">انرژی تجدیدپذیر</div>
+                                        <div class="text-2xs text-slate-500">منبع نامحدود تابش خورشید</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Minimal Visual Illustration Card -->
+                        <div class="lg:col-span-5">
+                            <div class="bg-brand-cardBg p-8 rounded-3xl border border-slate-300 shadow-sm relative overflow-hidden space-y-6">
+                                <div class="flex items-center gap-3 border-b border-slate-300 pb-4">
+                                    <div class="w-10 h-10 rounded-xl bg-brand-blue text-brand-yellow flex items-center justify-center font-bold">
+                                        <i class="fa-solid fa-bullseye"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-brand-navy text-sm">ماموریت و چشم‌انداز</h3>
+                                        <p class="text-2xs text-slate-500">پایداری انرژی برای فردا</p>
+                                    </div>
+                                </div>
+
+                                <p class="text-xs text-slate-600 leading-relaxed">
+                                    توسعه نیروگاه‌های تجدیدپذیر خورشیدی جهت تحقق هدف کاهش کربن و تضمین تامین برق مستمر کارخانجات، معادن و صنایع بزرگ کشور با حداکثر راندمان.
+                                </p>
+
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between text-xs text-slate-700 bg-slate-200/60 p-3 rounded-lg">
+                                        <span>تعهد به استانداردهای بین‌المللی</span>
+                                        <i class="fa-solid fa-check text-emerald-600"></i>
+                                    </div>
+                                    <div class="flex items-center justify-between text-xs text-slate-700 bg-slate-200/60 p-3 rounded-lg">
+                                        <span>استفاده از تجهیزات Tier 1</span>
+                                        <i class="fa-solid fa-check text-emerald-600"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ================= PAGE 3: CONTACT US ================= -->
+        <section id="page-contact" class="page-tab">
+            
+            <!-- Banner -->
+            <div class="bg-brand-blueDark text-white py-16 border-b border-slate-800">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <span class="text-xs font-bold text-brand-yellow tracking-wider uppercase">ارتباط با ما</span>
+                    <h1 class="text-3xl font-extrabold mt-2 mb-3">تماس با کارشناسان نیروگاهی</h1>
+                    <p class="text-slate-300 text-sm max-w-2xl mx-auto font-light leading-relaxed">
+                        جهت مشاوره فنی، امکان‌سنجی اولیه و ثبت درخواست احداث نیروگاه خورشیدی با ما در ارتباط باشید.
+                    </p>
+                </div>
+            </div>
+
+            <div class="py-16 bg-brand-bgGray">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                        
+                        <!-- Contact Info Column -->
+                        <div class="lg:col-span-5 space-y-6">
+                            
+                            <!-- Dedicated Support Card -->
+                            <div class="bg-brand-blue text-white p-6 rounded-2xl shadow-lg border border-blue-600 relative overflow-hidden flex items-center justify-between gap-4">
+                                <div class="space-y-1">
+                                    <div class="inline-block bg-brand-yellow text-brand-navy text-2xs font-bold px-2 py-0.5 rounded-md mb-1">
+                                        پشتیبانی تخصصی
+                                    </div>
+                                    <h4 class="font-bold text-sm">پاسخگویی و مشاوره فنی</h4>
+                                    <p class="text-2xs text-blue-100">تیم مهندسی ما آماده پاسخگویی به سوالات شماست.</p>
+                                </div>
+                                <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-brand-yellow text-2xl flex-shrink-0 border border-white/10">
+                                    <i class="fa-solid fa-headset"></i>
+                                </div>
+                            </div>
+
+                            <div class="bg-brand-cardBg p-8 rounded-2xl border border-slate-300 space-y-6">
+                                <h3 class="text-lg font-bold text-brand-navy border-b border-slate-300 pb-3">اطلاعات ارتباطی</h3>
+
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-xl bg-brand-blue text-brand-yellow flex items-center justify-center flex-shrink-0">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-2xs text-slate-500 font-bold uppercase">پست الکترونیک رسمی</div>
+                                        <div class="text-sm font-bold text-brand-navy mt-1 font-mono">
+                                            epcfenergy@gmail.com
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-xl bg-brand-blue text-brand-yellow flex items-center justify-center flex-shrink-0">
+                                        <i class="fa-solid fa-phone"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-2xs text-slate-500 font-bold uppercase">تلفن دفتر مرکزی</div>
+                                        <div class="text-sm font-bold text-brand-navy mt-1">
+                                            ؟
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-xl bg-brand-blue text-brand-yellow flex items-center justify-center flex-shrink-0">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-2xs text-slate-500 font-bold uppercase">نشانی دفتر مرکزی</div>
+                                        <div class="text-xs font-bold text-brand-navy mt-1">
+                                            ؟
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Contact Form Column -->
+                        <div class="lg:col-span-7">
+                            <div class="bg-brand-cardBg p-8 sm:p-10 rounded-2xl border border-slate-300">
+                                <h3 class="text-lg font-bold text-brand-navy mb-1">فرم درخواست مشاوره و پیام</h3>
+                                <p class="text-slate-500 text-xs mb-6">اطلاعات خود را وارد کنید تا کارشناسان فنی با شما تماس بگیرند.</p>
+
+                                <div id="form-success" class="hidden mb-6 p-4 bg-emerald-100 border border-emerald-300 rounded-xl text-emerald-900 text-xs flex items-center gap-3">
+                                    <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
+                                    <div>
+                                        <strong>پیام شما با موفقیت ثبت شد!</strong>
+                                        <p class="mt-0.5">کارشناسان ما به زودی با شما تماس خواهند گرفت.</p>
+                                    </div>
+                                </div>
+
+                                <form id="contact-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-xs font-bold text-slate-700 mb-1.5">نام و نام خانوادگی *</label>
+                                            <input type="text" required placeholder="نام شما" class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-brand-blue bg-white">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-bold text-slate-700 mb-1.5">شماره تماس *</label>
+                                            <input type="tel" required placeholder="۰۹۱۲XXXXXXX" class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-brand-blue bg-white text-right" dir="ltr">
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-700 mb-1.5">پست الکترونیک</label>
+                                        <input type="email" placeholder="epcfenergy@gmail.com" class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-brand-blue bg-white text-left" dir="ltr">
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-700 mb-1.5">شرح درخواست یا پروژه *</label>
+                                        <textarea rows="4" required placeholder="توضیحات مختصر در مورد توان نیروگاه یا درخواست خود را بنویسید..." class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:outline-none focus:border-brand-blue bg-white"></textarea>
+                                    </div>
+
+                                    <button type="submit" class="w-full bg-brand-blue hover:bg-brand-blueHover text-white font-bold py-3.5 rounded-xl text-sm transition-all shadow-md shadow-brand-blue/20 flex items-center justify-center gap-2">
+                                        <span>ارسال فرم تماس</span>
+                                        <i class="fa-solid fa-paper-plane text-brand-yellow text-xs"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-blueDark text-slate-400 border-t border-slate-800 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-8 border-b border-slate-800">
+                
+                <div class="md:col-span-6 space-y-3">
+                    <div class="flex items-center gap-3">
+                        <!-- تصویر لوگو در فوتر با ارتفاع بزرگ‌تر -->
+                        <img src="logo.png" alt="لوگو" style="height: 65px; width: auto; object-fit: contain;">
+                        <span class="font-extrabold text-white text-base">احداث و توسعه نیروگاه‌های سولار</span>
+                    </div>
+                    <p class="text-slate-400 leading-relaxed max-w-md text-2xs">
+                        ارائه‌دهنده راهکارهای جامع EPC در احداث نیروگاه‌های خورشیدی تجدیدپذیر با تمرکز بر حفظ محیط زیست و تامین انرژی پایدار برای صنایع.
+                    </p>
+                </div>
+
+                <div class="md:col-span-6 space-y-2 text-left" dir="ltr">
+                    <div class="text-white font-bold text-xs mb-2">ارتباط مستقیم</div>
+                    <p class="text-slate-300 font-mono">epcfenergy@gmail.com</p>
+                    <p class="text-slate-300">تلفن: ؟</p>
+                </div>
+
+            </div>
+
+            <div class="pt-6 text-center text-slate-500 text-2xs">
+                © کلیه حقوق این وب‌سایت متعلق به شرکت احداث و توسعه نیروگاه‌های سولار می‌باشد.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Navigation -->
+    <script>
+        function switchTab(tabId) {
+            const tabs = document.querySelectorAll('.page-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            const target = document.getElementById('page-' + tabId);
+            if (target) {
+                target.classList.add('active');
+            }
+
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => {
+                btn.classList.remove('bg-brand-bgGrayDark', 'text-brand-blue', 'font-bold');
+                btn.classList.add('text-slate-600');
+            });
+
+            const activeNavBtn = document.getElementById('nav-' + tabId);
+            if (activeNavBtn) {
+                activeNavBtn.classList.add('bg-brand-bgGrayDark', 'text-brand-blue', 'font-bold');
+                activeNavBtn.classList.remove('text-slate-600');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const successAlert = document.getElementById('form-success');
+            const form = document.getElementById('contact-form');
+            
+            successAlert.classList.remove('hidden');
+            form.reset();
+            successAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    </script>
+</body>
+</html>
+
+```
